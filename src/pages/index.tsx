@@ -106,9 +106,9 @@ export default function Home() {
           Mint NFT
         </Button>
         <Button
-          onClick={() => {
+          onClick={async () => {
             invariant(currentAccount, "Current account is not available.");
-            let tx = stake(nft!, kiosk!, kioskCap!);
+            let tx = await stake(nft!, kiosk!, kioskCap!);
 
             client
               .devInspectTransactionBlock({

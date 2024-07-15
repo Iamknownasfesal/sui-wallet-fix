@@ -36,11 +36,11 @@ export async function mint(address: string): Promise<Transaction> {
   return tx;
 }
 
-export function stake(
+export async function stake(
   nft: string,
   kiosk: string,
   kioskCap: string
-): Transaction {
+): Promise<Transaction> {
   const tx = new Transaction();
 
   const request = tx.moveCall({
