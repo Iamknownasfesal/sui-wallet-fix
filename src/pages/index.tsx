@@ -166,7 +166,7 @@ export default function Home() {
           getting out.
         </p>
         <p className="mt-6">To reproduce:</p>
-        <p className="font-bold">1. Connect your wallet & switch to testnet</p>
+        <p className="font-bold">1. Connect your wallet & switch to mainnet</p>
         <p className="font-bold">2. Mint an NFT</p>
         <p className="font-bold">
           3. Try to get it out of the kiosk, espically while forcing lock rule.
