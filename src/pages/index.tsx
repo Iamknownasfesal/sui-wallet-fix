@@ -106,26 +106,28 @@ export default function Home() {
           Mint NFT
         </Button>
         <Button
-          onClick={async () => {
+          onClick={() => {
             invariant(currentAccount, "Current account is not available.");
-            let tx = await stake(nft!, kiosk!, kioskCap!);
+            let tx = stake(nft!, kiosk!, kioskCap!);
+
             client
               .devInspectTransactionBlock({
                 sender: currentAccount?.address,
                 transactionBlock: tx,
               })
               .then((result) => {
-                if (result.error) setError(result.error || "None");
+                if (result.error) throw new Error(result.error);
+              })
+              .then(() => {
+                signAndExecute({
+                  transaction: tx,
+                }).catch((e) => {
+                  setError(e.message);
+                });
               })
               .catch((e) => {
                 setError(e.message);
               });
-
-            signAndExecute({
-              transaction: tx,
-            }).catch((e) => {
-              setError(e.message);
-            });
           }}
           disabled={!currentAccount || !nft || !kiosk || !kioskCap}
         >
