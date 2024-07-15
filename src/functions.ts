@@ -129,9 +129,11 @@ export async function withdraw(
     policy: tx.object(POLICY),
   });
 
+  invariant(kioskTransaction.kiosk, "Kiosk is not available.");
+
   tx.moveCall({
     target: `${MODULE}::kiosk_lock_rule::prove`,
-    arguments: [request, tx.object(VAULT_KIOSK)],
+    arguments: [request, tx.object(kioskTransaction.kiosk)],
     typeArguments: [NFT_TYPE],
   });
 
