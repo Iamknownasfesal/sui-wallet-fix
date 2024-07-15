@@ -4,6 +4,7 @@ import {
   ConnectModal,
   useCurrentAccount,
   useDisconnectWallet,
+  useSuiClient,
 } from "@mysten/dapp-kit";
 import { useState } from "react";
 import { useExecute } from "@/hooks/useExecute";
@@ -21,6 +22,7 @@ export default function Home() {
   const [nft, setNFT] = useState<string | null>(null);
   const [kiosk, setKiosk] = useState<string | null>(null);
   const [kioskCap, setKioskCap] = useState<string | null>(null);
+  const client = useSuiClient();
   return (
     <main
       className={`flex min-h-screen flex-col items-center text-wrap p-4 ${inter.className}`}
@@ -28,16 +30,20 @@ export default function Home() {
       <div className="flex flex-col gap-2">
         <p className="text-sm font-light">
           <span className="font-bold">Connected Address:</span>{" "}
-          {currentAccount?.address}
+          {currentAccount?.address.slice(0, 6)}...
+          {currentAccount?.address.slice(-4)}
         </p>
         <p className="text-sm font-light">
-          <span className="font-bold">NFT:</span> {nft}
+          <span className="font-bold">NFT:</span> {nft?.slice(0, 6)}...
+          {nft?.slice(-4)}
         </p>
         <p className="text-sm font-light">
-          <span className="font-bold">Kiosk:</span> {kiosk}
+          <span className="font-bold">Kiosk:</span> {kiosk?.slice(0, 6)}...
+          {kiosk?.slice(-4)}
         </p>
         <p className="text-sm font-light">
-          <span className="font-bold">KioskOwnerCap:</span> {kioskCap}
+          <span className="font-bold">KioskOwnerCap:</span>{" "}
+          {kioskCap?.slice(0, 6)}...{kioskCap?.slice(-4)}
         </p>
         {currentAccount ? (
           <>
@@ -101,8 +107,19 @@ export default function Home() {
         </Button>
         <Button
           onClick={async () => {
+            invariant(currentAccount, "Current account is not available.");
+            let tx = await stake(nft!, kiosk!, kioskCap!);
+            client
+              .devInspectTransactionBlock({
+                sender: currentAccount?.address,
+                transactionBlock: tx,
+              })
+              .catch((e) => {
+                setError(e.message);
+              });
+
             signAndExecute({
-              transaction: await stake(nft!, kiosk!, kioskCap!),
+              transaction: tx,
             }).catch((e) => {
               setError(e.message);
             });
