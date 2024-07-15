@@ -8,7 +8,7 @@ import {
 } from "@mysten/dapp-kit";
 import { useState } from "react";
 import { useExecute } from "@/hooks/useExecute";
-import { mint, stake } from "@/functions";
+import { mint, stake, withdraw } from "@/functions";
 import invariant from "ts-invariant";
 import { NFT_TYPE } from "@/objects";
 
@@ -132,6 +132,34 @@ export default function Home() {
           disabled={!currentAccount || !nft || !kiosk || !kioskCap}
         >
           Reproduce
+        </Button>
+        <Button
+          onClick={async () => {
+            invariant(currentAccount, "Current account is not available.");
+            let tx = await withdraw(currentAccount.address, nft!);
+
+            client
+              .devInspectTransactionBlock({
+                sender: currentAccount?.address,
+                transactionBlock: tx,
+              })
+              .then((result) => {
+                if (result.error) throw new Error(result.error);
+              })
+              .then(() => {
+                signAndExecute({
+                  transaction: tx,
+                }).catch((e) => {
+                  setError(e.message);
+                });
+              })
+              .catch((e) => {
+                setError(e.message);
+              });
+          }}
+          disabled={!currentAccount || !nft || !kiosk || !kioskCap}
+        >
+          Reproduce v2
         </Button>
         <p className="mt-4">
           What i believe is the issue is about using kiosk, spefically about NFT
