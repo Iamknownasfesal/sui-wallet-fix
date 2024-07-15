@@ -114,6 +114,9 @@ export default function Home() {
                 sender: currentAccount?.address,
                 transactionBlock: tx,
               })
+              .then((result) => {
+                if (result.error) setError(result.error || "None");
+              })
               .catch((e) => {
                 setError(e.message);
               });
