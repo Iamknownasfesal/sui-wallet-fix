@@ -14,6 +14,7 @@
     "@mysten/sui": "^1.2.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@tanstack/react-query": "^5.51.1",
+    "@wormhole-foundation/sdk-sui": "^0.8.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "lucide-react": "^0.408.0",

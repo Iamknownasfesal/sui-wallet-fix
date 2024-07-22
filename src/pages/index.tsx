@@ -11,6 +11,7 @@ import { useExecute } from "@/hooks/useExecute";
 import { mint, stake, withdraw } from "@/functions";
 import invariant from "ts-invariant";
 import { NFT_TYPE } from "@/objects";
+import { ClaimWormhole } from "@/lib/a";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -160,6 +161,19 @@ export default function Home() {
           disabled={!currentAccount || !nft || !kiosk || !kioskCap}
         >
           Reproduce v2
+        </Button>
+        <Button
+          onClick={async () => {
+            let tx = await ClaimWormhole();
+
+            signAndExecute({
+              transaction: tx,
+            }).catch((e) => {
+              setError(e.message);
+            });
+          }}
+        >
+          Claim
         </Button>
         <p className="mt-4">
           What i believe is the issue is about using kiosk, spefically about NFT
