@@ -43,18 +43,13 @@ export async function ClaimWormhole() {
     ],
   });
 
-  let coin = txb.moveCall({
+  txb.moveCall({
     target: `0x26efee2b51c911237888e5dc6702868abca3c7ac12c53f76ef8eba0697695e3d::coin_utils::return_nonzero`,
     arguments: [VAA3],
     typeArguments: [
       "0x5d4b302506645c37ff133b98c4b50a5ae14841659738d6d733d59d0d217a93bf::coin::COIN",
     ],
   });
-
-  txb.transferObjects(
-    [coin],
-    "0x132e98222101bcd187caa5a87c20cfb0e70832152c781b4c55df5055b88fec5d"
-  );
 
   return txb;
 }
