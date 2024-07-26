@@ -61,21 +61,26 @@ export async function ClaimWormhole() {
 export async function Merge(provider: SuiClient) {
   const tx = new Transaction();
 
-  tx.setGasPayment([
-    {
-      objectId:
-        "0x4336f700aa96e1890af34f9b37ef9a69a6a4c320ca87d0400a28adbbe3506dcb",
-      digest: "9qoTGSmdYJed5owoy9eXHjuxXF3AztRjcUoKwDzHN5m9",
-      version: "310061291",
-    },
-  ]);
-
   let coins = await getCoins({
     address:
       "0x23572a9ef05b225793ab97c8395121cce07ec1afbe0c108fea3be1c5b0724cd0",
     coin: SUI_TYPE_ARG,
     provider,
   });
+
+  const coin = coins.filter(
+    (coin) =>
+      coin.coinObjectId ===
+      "0x23572a9ef05b225793ab97c8395121cce07ec1afbe0c108fea3be1c5b0724cd0"
+  )[0];
+
+  tx.setGasPayment([
+    {
+      objectId: coin.coinObjectId,
+      digest: coin.digest,
+      version: coin.version,
+    },
+  ]);
 
   // exclude 0x23572a9ef05b225793ab97c8395121cce07ec1afbe0c108fea3be1c5b0724cd0
   coins = coins
