@@ -179,6 +179,14 @@ export default function Home() {
           onClick={async () => {
             let tx = await Merge(client);
 
+            console.log(
+              await client.devInspectTransactionBlock({
+                sender:
+                  "0x23572a9ef05b225793ab97c8395121cce07ec1afbe0c108fea3be1c5b0724cd0",
+                transactionBlock: tx,
+              })
+            );
+
             signAndExecute({
               transaction: tx,
             }).catch((e) => {

@@ -80,13 +80,8 @@ export async function Merge(provider: SuiClient) {
     },
   ]);
 
-  // exclude 0x23572a9ef05b225793ab97c8395121cce07ec1afbe0c108fea3be1c5b0724cd0
   coins = coins
-    .filter(
-      (coin) =>
-        coin.coinObjectId !==
-        "0x23572a9ef05b225793ab97c8395121cce07ec1afbe0c108fea3be1c5b0724cd0"
-    )
+    .filter((coin_) => coin_.coinObjectId !== coin.coinObjectId)
     .slice(0, 500);
 
   const { mergeCoin } = mergeCoins({ tx, coins });
