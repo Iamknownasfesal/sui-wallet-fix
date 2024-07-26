@@ -69,9 +69,7 @@ export async function Merge(provider: SuiClient) {
   });
 
   const coin = coins.filter(
-    (coin) =>
-      coin.coinObjectId ===
-      "0x23572a9ef05b225793ab97c8395121cce07ec1afbe0c108fea3be1c5b0724cd0"
+    (coin) => BigInt(coin.balance) >= BigInt(1_000_000_000)
   )[0];
 
   tx.setGasPayment([
