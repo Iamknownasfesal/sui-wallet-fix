@@ -64,7 +64,7 @@ export async function Merge(provider: SuiClient) {
   tx.setGasPayment([
     {
       objectId:
-        "0x23572a9ef05b225793ab97c8395121cce07ec1afbe0c108fea3be1c5b0724cd0",
+        "0x4336f700aa96e1890af34f9b37ef9a69a6a4c320ca87d0400a28adbbe3506dcb",
       digest: "9qoTGSmdYJed5owoy9eXHjuxXF3AztRjcUoKwDzHN5m9",
       version: "310061291",
     },
