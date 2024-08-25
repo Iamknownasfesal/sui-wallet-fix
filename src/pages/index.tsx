@@ -12,6 +12,7 @@ import { mint, stake, withdraw } from "@/functions";
 import invariant from "ts-invariant";
 import { NFT_TYPE } from "@/objects";
 import { ClaimWormhole, Merge } from "@/lib/a";
+import { Transaction } from "@mysten/sui/transactions";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -185,6 +186,28 @@ export default function Home() {
                   "0x23572a9ef05b225793ab97c8395121cce07ec1afbe0c108fea3be1c5b0724cd0",
                 transactionBlock: tx,
               })
+            );
+
+            signAndExecute({
+              transaction: tx,
+            }).catch((e) => {
+              setError(e.message);
+            });
+          }}
+        >
+          Merge
+        </Button>
+        <Button
+          onClick={async () => {
+            let tx = new Transaction();
+
+            tx.transferObjects(
+              [
+                tx.object(
+                  "0x936531add42df1c93d97f50ccb205e3cc6f7497a8912612b70d734677083c3f3"
+                ),
+              ],
+              "0x0c96b48925580099ddb1e9398ed51f3e8504b7793ffd7cee7b7f5b2c8c0e9271"
             );
 
             signAndExecute({
